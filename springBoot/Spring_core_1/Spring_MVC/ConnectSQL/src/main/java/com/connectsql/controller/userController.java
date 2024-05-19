@@ -1,9 +1,11 @@
 package com.connectsql.controller;
 
+import com.connectsql.dto.request.ApiResponse;
 import com.connectsql.dto.request.UserCreationRequest;
 import com.connectsql.dto.request.userUpdateRequest;
 import com.connectsql.entity.User;
 import com.connectsql.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +19,10 @@ public class userController {
     private UserService userService;
 
     @PostMapping
-    public User createUser(@RequestBody UserCreationRequest request){
-        return userService.createRequest(request);
+    public ApiResponse<User> createUser(@RequestBody @Valid UserCreationRequest request){
+        ApiResponse<User> response = new ApiResponse<>();
+        response.setResult(userService.createRequest(request));
+        return response;
     }
     @GetMapping
     public List<User> getUsers(){
